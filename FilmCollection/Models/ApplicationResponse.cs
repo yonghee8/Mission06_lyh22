@@ -12,8 +12,6 @@ namespace FilmCollection.Models
         [Required]
         public int FilmId { get; set; }
         [Required]
-        public string Category { get; set; }
-        [Required]
         public string Title { get; set; }
         [Required]
         public int Year { get; set; }
@@ -26,5 +24,8 @@ namespace FilmCollection.Models
         [MaxLength(25)]
         public string Notes { get; set; }
 
+        //Build Foreign Key Relationship
+        public int CategoryId { get; set; }
+        public Category Category { get; set; }
     }
 }

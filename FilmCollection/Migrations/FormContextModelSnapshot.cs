@@ -21,9 +21,8 @@ namespace FilmCollection.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Category")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Director")
                         .IsRequired()
@@ -52,13 +51,15 @@ namespace FilmCollection.Migrations
 
                     b.HasKey("FilmId");
 
+                    b.HasIndex("CategoryId");
+
                     b.ToTable("Responses");
 
                     b.HasData(
                         new
                         {
                             FilmId = 1,
-                            Category = "Sci-fi/Adventure",
+                            CategoryId = 1,
                             Director = "Christopher Nolan",
                             Edited = false,
                             LentTo = "",
@@ -70,7 +71,7 @@ namespace FilmCollection.Migrations
                         new
                         {
                             FilmId = 2,
-                            Category = "Romance/Fantasy",
+                            CategoryId = 3,
                             Director = "Richard Curtis",
                             Edited = false,
                             LentTo = "",
@@ -82,7 +83,7 @@ namespace FilmCollection.Migrations
                         new
                         {
                             FilmId = 3,
-                            Category = "Fantasy/Adventure",
+                            CategoryId = 1,
                             Director = "Hayao Miyazaki",
                             Edited = false,
                             LentTo = "",
@@ -91,6 +92,71 @@ namespace FilmCollection.Migrations
                             Title = "Spirited Away",
                             Year = 2001
                         });
+                });
+
+            modelBuilder.Entity("FilmCollection.Models.Category", b =>
+                {
+                    b.Property<int>("CategoryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("CategoryName")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("CategoryId");
+
+                    b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            CategoryId = 1,
+                            CategoryName = "Action/Adventure"
+                        },
+                        new
+                        {
+                            CategoryId = 2,
+                            CategoryName = "Comedy"
+                        },
+                        new
+                        {
+                            CategoryId = 3,
+                            CategoryName = "Drama"
+                        },
+                        new
+                        {
+                            CategoryId = 4,
+                            CategoryName = "Family"
+                        },
+                        new
+                        {
+                            CategoryId = 5,
+                            CategoryName = "Horror/Suspense"
+                        },
+                        new
+                        {
+                            CategoryId = 6,
+                            CategoryName = "Miscellaneous"
+                        },
+                        new
+                        {
+                            CategoryId = 7,
+                            CategoryName = "Television"
+                        },
+                        new
+                        {
+                            CategoryId = 8,
+                            CategoryName = "VHS"
+                        });
+                });
+
+            modelBuilder.Entity("FilmCollection.Models.ApplicationResponse", b =>
+                {
+                    b.HasOne("FilmCollection.Models.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
